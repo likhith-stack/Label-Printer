@@ -25,7 +25,96 @@ textarea{min-height:115px;resize:vertical}.hint{font-size:12px;color:var(--muted
 .remove{position:absolute;right:6px;top:6px;background:#fff0ef;color:#a52b27;border:0;border-radius:4px;padding:4px 6px;cursor:pointer}
 .empty{border:1px dashed #d0d7dc;border-radius:9px;padding:30px;text-align:center;color:var(--muted);margin-top:15px}
 @media(max-width:600px){main{margin:18px auto}.panel{padding:14px}}
-@media print{@page{size:4in 6in;margin:.15in}body{background:#fff}header,.intro,.no-print{display:none!important}main{margin:0;padding:0;max-width:none}.panel{border:0;padding:0;margin:0}.labels{display:block}.ship-label{border:1px solid #222;border-radius:0;width:100%;min-height:5.65in;padding:.25in;margin:0 0 .1in;page-break-after:always;break-after:page}.ship-label:last-child{page-break-after:auto;break-after:auto}.barcode{height:1.15in}.number{font-size:23px;margin:12px 0}.ship-no{font-size:13px}.barcode-text{font-size:14px}.remove{display:none}}
+@media print {
+  @page {
+    size: 4in 2.5in;
+    margin: 0.08in;
+  }
+
+  body {
+    background: #fff;
+    margin: 0;
+  }
+
+  header,
+  .intro,
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+
+  .panel {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .topline {
+    display: none;
+  }
+
+  .labels {
+    display: block;
+    margin: 0;
+  }
+
+  .ship-label {
+    border: 1px solid #222;
+    border-radius: 0;
+    width: 3.84in;
+    height: 2.34in;
+    min-height: 0;
+    padding: 0.12in;
+    margin: 0;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .ship-label:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .label-brand {
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+
+  .label-brand small {
+    font-size: 8px;
+  }
+
+  .ship-no {
+    font-size: 10px;
+  }
+
+  .number {
+    font-size: 18px;
+    margin: 5px 0;
+  }
+
+  .barcode {
+    display: block;
+    width: 100%;
+    height: 0.65in;
+  }
+
+  .barcode-text {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .remove {
+    display: none !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -51,7 +140,10 @@ function generate(){
  const nums=[...new Set(input.value.split(/[\n,\t; ]+/).map(s=>s.trim()).filter(Boolean))];
  count.textContent=nums.length+' shipment label'+(nums.length===1?'':'s');
  if(!nums.length){out.innerHTML='<div class="empty">Enter shipment numbers above to generate labels.</div>';return;}
- out.innerHTML=nums.map((n,i)=>`<article class="ship-label"><button class="remove no-print" data-remove="${i}">Remove</button><div class="label-brand"><div><span>●</span> LabelDesk</div><small>SHIPMENT LABEL</small></div><div class="ship-no">Shipment No.</div><div class="number">${esc(n)}</div><svg class="barcode" id="bc${i}" aria-label="Barcode for ${esc(n)}"></svg><div class="barcode-text">${esc(n)}</div></article>`).join('');
+ out.innerHTML=nums.map((n,i)=>`<article class="ship-label"><button class="remove no-print" data-remove="${i}">Remove</button><div class="label-brand">
+  <div><span>●</span> DELHIVERY</div>
+  <small>SHIPMENT LABEL</small>
+</div> class="ship-no">Shipment No.</div><div class="number">${esc(n)}</div><svg class="barcode" id="bc${i}" aria-label="Barcode for ${esc(n)}"></svg><div class="barcode-text">${esc(n)}</div></article>`).join('');
  if(window.JsBarcode)nums.forEach((n,i)=>{try{JsBarcode('#bc'+i,n,{format:'CODE128',lineColor:'#111',width:2,height:62,displayValue:false,margin:0});}catch(e){document.getElementById('bc'+i).outerHTML='<div class="hint">Barcode could not be generated for this number.</div>';}});
 }
 document.getElementById('generate').addEventListener('click',generate);
