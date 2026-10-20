@@ -117,8 +117,1224 @@ textarea{min-height:115px;resize:vertical}.hint{font-size:12px;color:var(--muted
 }
 </style>
 </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LabelCraft — Premium Label Generation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0d1a2d;
+      --panel: rgba(17, 27, 45, 0.8);
+      --panel-strong: #101d2d;
+      --line: rgba(133, 168, 255, 0.18);
+      --text: #eef7ff;
+      --muted: #8da6c7;
+      --primary: #4cc9f0;
+      --secondary: #5b7cff;
+      --accent: #7ef2d4;
+      --purple: #8b5cf6;
+      --warning: #fbbf24;
+      --shadow: 0 20px 60px rgba(16, 40, 72, 0.42);
+      --radius: 24px;
+      --container: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(76, 201, 240, 0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(91, 124, 255, 0.20), transparent 35%),
+        linear-gradient(180deg, #06101b 0%, #081827 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(7, 17, 31, 0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 78px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 10px 30px rgba(76, 201, 240, 0.4);
+      font-size: 20px;
+      font-weight: 800;
+      color: #05131d;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 14px 22px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #06131b;
+      box-shadow: 0 18px 40px rgba(91, 124, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 25px 50px rgba(91, 124, 255, 0.4);
+    }
+
+    .btn-secondary {
+      border-color: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .hero {
+      padding: 70px 0 80px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--primary);
+      background: rgba(76, 201, 240, 0.08);
+      border: 1px solid rgba(76, 201, 240, 0.15);
+      padding: 10px 14px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--accent), #b8ffea);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy p {
+      margin: 22px 0 28px;
+      font-size: 1.08rem;
+      max-width: 620px;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      color: var(--muted);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.6rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 620px;
+      display: grid;
+      place-items: center;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(12px);
+      opacity: 0.8;
+    }
+
+    .orb.one {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(91,124,255,0.35), rgba(91,124,255,0.05) 50%, transparent 70%);
+      right: 10%;
+      top: 9%;
+    }
+
+    .orb.two {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(76,201,240,0.35), rgba(76,201,240,0.05) 50%, transparent 70%);
+      left: 8%;
+      bottom: 8%;
+    }
+
+    .dashboard {
+      position: relative;
+      width: min(100%, 560px);
+      background: rgba(11, 19, 31, 0.74);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(18px);
+    }
+
+    .dashboard-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dots span {
+      width: 10px;
+      height: 10px;
+      display: block;
+      border-radius: 50%;
+    }
+
+    .dots span:nth-child(1) { background: #ff5f57; }
+    .dots span:nth-child(2) { background: #ffbd2e; }
+    .dots span:nth-child(3) { background: #28c840; }
+
+    .window-title {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dashboard-body {
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .label-preview {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(180deg, rgba(91,124,255,0.08), rgba(76,201,240,0.03)),
+        #0a1728;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .label-box {
+      width: 75%;
+      aspect-ratio: 1.3 / 1;
+      background: linear-gradient(140deg, rgba(11,24,37,0.95), rgba(17,34,48,0.9));
+      border: 1px solid rgba(122, 170, 255, 0.26);
+      border-radius: 18px;
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .label-box::before {
+      content: "";
+      width: 84%;
+      height: 84%;
+      position: absolute;
+      border: 1px solid rgba(126, 242, 212, 0.28);
+      border-radius: 14px;
+    }
+
+    .brand-tag {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .label-title {
+      font-size: clamp(1.2rem, 2vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 1.05;
+    }
+
+    .mini-bar {
+      width: 120px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      box-shadow: 0 0 25px rgba(76, 201, 240, 0.4);
+    }
+
+    .controls {
+      display: grid;
+      gap: 16px;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .swatch {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .gauge {
+      position: relative;
+      height: 86px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(76,201,240,0.06), rgba(91,124,255,0.02));
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .gauge::before {
+      content: "";
+      width: 62%;
+      height: 62%;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0 72%, rgba(255,255,255,0.08) 72% 100%);
+      box-shadow: inset 0 0 0 10px rgba(7, 17, 31, 0.8);
+    }
+
+    .gauge span {
+      position: absolute;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .metric {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.15rem;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .metric small {
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+    }
+
+    section {
+      padding: 36px 0 20px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 3rem);
+      letter-spacing: -0.06em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 600px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: rgba(13, 24, 38, 0.72);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 22px;
+      padding: 28px 22px;
+      box-shadow: 0 18px 40px rgba(7,16,28,0.26);
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(76,201,240,0.20), rgba(91,124,255,0.18));
+      border: 1px solid rgba(76,201,240,0.2);
+      color: var(--primary);
+    }
+
+    .feature-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .step {
+      position: relative;
+      padding: 26px 22px;
+      border-radius: 20px;
+      background: rgba(13, 23, 35, 0.76);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #06131b;
+      font-weight: 800;
+      margin-bottom: 18px;
+      box-shadow: 0 16px 30px rgba(91,124,255,0.25);
+    }
+
+    .step h3 {
+      margin: 0 0 10px;
+      font-size: 1.15rem;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .showcase {
+      margin-top: 34px;
+      background: rgba(10, 18, 29, 0.7);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 30px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+    }
+
+    .showcase-left {
+      background: linear-gradient(180deg, rgba(91,124,255,0.08), rgba(76,201,240,0.02));
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 320px;
+    }
+
+    .showcase-left .label-hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 230px;
+    }
+
+    .showcase-left .label-hero .label-box {
+      width: 75%;
+      transform: scale(1.1);
+    }
+
+    .showcase-right {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mini-panel {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .mini-panel h4 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .brand-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .brand-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .testimonials {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .quote {
+      background: rgba(13, 24, 38, 0.72);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 22px;
+      padding: 24px;
+    }
+
+    .quote p {
+      margin-top: 0;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #05131d;
+    }
+
+    .person strong {
+      display: block;
+    }
+
+    .person small {
+      color: var(--muted);
+    }
+
+    .pricing {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .price-card {
+      background: rgba(13, 24, 38, 0.72);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 22px;
+      padding: 30px 22px;
+    }
+
+    .price-card.featured {
+      background: linear-gradient(180deg, rgba(91,124,255,0.08), rgba(76,201,240,0.04));
+      border-color: rgba(76, 201, 240, 0.28);
+      transform: translateY(-8px);
+    }
+
+    .price-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+    }
+
+    .price {
+      margin: 0 0 10px;
+      font-size: 2.4rem;
+      letter-spacing: -0.08em;
+      font-weight: 800;
+    }
+
+    .price small {
+      font-size: 0.95rem;
+      color: var(--muted);
+      letter-spacing: normal;
+    }
+
+    .price-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 24px;
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .price-card li::before {
+      content: "✓";
+      color: var(--accent);
+      margin-right: 10px;
+      font-weight: 700;
+    }
+
+    .cta {
+      margin-top: 42px;
+      text-align: center;
+      padding: 50px 20px 70px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(91,124,255,0.12), rgba(76,201,240,0.10));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 30px;
+      padding: 42px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-box h2 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -0.06em;
+    }
+
+    .cta-box p {
+      margin: 0 auto 24px;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .site-footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 18px 0 34px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .showcase,
+      .feature-grid,
+      .workflow,
+      .pricing,
+      .testimonials {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .feature-grid,
+      .workflow,
+      .pricing,
+      .testimonials {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .nav-actions .btn-secondary {
+        display: none;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  </style>
+</head>
 <body>
-<header><div class="mark">L</div><div><h1>Shipment Barcode Generator</h1><small>Simple shipment number labels</small></div></header>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-mark">L</div>
+        <span>LabelCraft</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#">Platform</a>
+        <a href="#">Templates</a>
+        <a href="#">Studio</a>
+        <a href="#">Pricing</a>
+        <a href="#">Resources</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#" class="btn btn-secondary">Log in</a>
+        <a href="#" class="btn btn-primary">Start free</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">AI Label Generator</div>
+          <h1>
+            Design labels that look
+            <span class="gradient-text">premium</span>
+            and perform.
+          </h1>
+
+          <p>
+            Create product labels, packaging visuals, and branded retail assets in minutes.
+            Automate your workflow with intelligent design suggestions built for modern tech brands.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary">Generate labels</a>
+            <a href="#" class="btn btn-secondary">Watch demo</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>12k+</strong>
+              labels created
+            </div>
+            <div class="stat">
+              <strong>4.9/5</strong>
+              user rating
+            </div>
+            <div class="stat">
+              <strong>2 min</strong>
+              average setup
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="orb one"></div>
+          <div class="orb two"></div>
+
+          <div class="dashboard">
+            <div class="dashboard-topbar">
+              <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="window-title">Label Studio</div>
+            </div>
+
+            <div class="dashboard-body">
+              <div class="workspace">
+                <div class="panel">
+                  <div class="label-preview">
+                    <div class="label-box">
+                      <div class="brand-tag">Flux Labs</div>
+                      <div class="label-title">Aether<br>Series</div>
+                      <div class="mini-bar"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="controls">
+                  <div class="panel">
+                    <div class="control-row">
+                      <span>Brand palette</span>
+                      <span>4 tones</span>
+                    </div>
+                    <div class="swatches">
+                      <span class="swatch" style="background:#4cc9f0"></span>
+                      <span class="swatch" style="background:#5b7cff"></span>
+                      <span class="swatch" style="background:#7ef2d4"></span>
+                      <span class="swatch" style="background:#101d2d"></span>
+                    </div>
+                  </div>
+
+                  <div class="panel">
+                    <div class="control-row">
+                      <span>Conversion</span>
+                      <span>72%</span>
+                    </div>
+                    <div class="gauge">
+                      <span>72%</span>
+                    </div>
+                  </div>
+
+                  <div class="panel">
+                    <div class="metrics">
+                      <div class="metric">
+                        <small>Print</small>
+                        <strong>4K</strong>
+                      </div>
+                      <div class="metric">
+                        <small>Speed</small>
+                        <strong>2x</strong>
+                      </div>
+                      <div class="metric">
+                        <small>AI</small>
+                        <strong>28</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Built for modern product teams</h2>
+          <p>
+            From packaging mockups to shelf-ready labels, LabelCraft helps you generate polished,
+            conversion-friendly visuals with less friction.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="icon-box">⚡</div>
+            <h3>AI-generated layouts</h3>
+            <p>Generate high-quality label concepts from a simple prompt or product description.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon-box">🎨</div>
+            <h3>Brand consistency</h3>
+            <p>Match your palette, typography, and visual language across every product line.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon-box">📦</div>
+            <h3>Retail-ready exports</h3>
+            <p>Export PNG, PDF, SVG, and print-focused assets optimized for packaging workflows.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon-box">📈</div>
+            <h3>Conversion insights</h3>
+            <p>Test label variations and improve readability, shelf appeal, and product trust.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>How it works</h2>
+          <p>Create premium packaging visuals from idea to export in a few simple steps.</p>
+        </div>
+
+        <div class="workflow">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Describe your product</h3>
+            <p>Enter category, tone, audience, and style direction.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Generate concepts</h3>
+            <p>Explore AI-produced label variations tailored to your brief.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Customize fast</h3>
+            <p>Fine-tune text, color, spacing, logos, and brand elements.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">4</div>
+            <h3>Export and ship</h3>
+            <p>Download files ready for product listing, print, and marketing.</p>
+          </div>
+        </div>
+
+        <div class="showcase">
+          <div class="showcase-left">
+            <div class="label-hero">
+              <div class="label-box">
+                <div class="brand-tag">Nova Labs</div>
+                <div class="label-title">Quantum<br>Energy</div>
+                <div class="mini-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="showcase-right">
+            <div class="mini-panel">
+              <h4>Best for</h4>
+              <div class="brand-list">
+                <span class="brand-pill">SaaS</span>
+                <span class="brand-pill">Consumer</span>
+                <span class="brand-pill">Beauty</span>
+                <span class="brand-pill">Wellness</span>
+                <span class="brand-pill">Retail</span>
+              </div>
+            </div>
+
+            <div class="mini-panel">
+              <h4>Key metrics</h4>
+              <div class="metrics">
+                <div class="metric">
+                  <small>CTR</small>
+                  <strong>+38%</strong>
+                </div>
+                <div class="metric">
+                  <small>Speed</small>
+                  <strong>4.8x</strong>
+                </div>
+                <div class="metric">
+                  <small>Reuse</small>
+                  <strong>90%</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="mini-panel">
+              <h4>Ready for export</h4>
+              <div class="brand-list">
+                <span class="brand-pill">PNG</span>
+                <span class="brand-pill">SVG</span>
+                <span class="brand-pill">PDF</span>
+                <span class="brand-pill">Print</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Trusted by product teams</h2>
+          <p>Teams use LabelCraft to create packaging that looks premium, sells better, and ships faster.</p>
+        </div>
+
+        <div class="testimonials">
+          <div class="quote">
+            <p>“The quality feels like a premium design studio. We cut our label mockup time from days to minutes.”</p>
+            <div class="person">
+              <div class="avatar">AS</div>
+              <div>
+                <strong>Alicia Stone</strong>
+                <small>Brand Lead, FluxLab</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote">
+            <p>“We generate multiple label directions in seconds and iterate with our marketing team in real time.”</p>
+            <div class="person">
+              <div class="avatar">JR</div>
+              <div>
+                <strong>Jon Rhee</strong>
+                <small>VP Product, Nera</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote">
+            <p>“It looks like a polished product launch experience, but it was built for speed and consistency.”</p>
+            <div class="person">
+              <div class="avatar">LM</div>
+              <div>
+                <strong>Lena Moss</strong>
+                <small>Creative Director, Orbital</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Simple pricing</h2>
+          <p>Flexible plans for startups, design teams, and scaling product brands.</p>
+        </div>
+
+        <div class="pricing">
+          <div class="price-card">
+            <h3>Starter</h3>
+            <div class="price">$19 <small>/mo</small></div>
+            <ul>
+              <li>10 AI label generations</li>
+              <li>6 export presets</li>
+              <li>Basic templates</li>
+            </ul>
+            <a href="#" class="btn btn-secondary">Get started</a>
+          </div>
+
+          <div class="price-card featured">
+            <h3>Pro</h3>
+            <div class="price">$49 <small>/mo</small></div>
+            <ul>
+              <li>Unlimited generations</li>
+              <li>Brand kit management</li>
+              <li>Advanced export tools</li>
+              <li>Priority rendering</li>
+            </ul>
+            <a href="#" class="btn btn-primary">Most popular</a>
+          </div>
+
+          <div class="price-card">
+            <h3>Scale</h3>
+            <div class="price">$99 <small>/mo</small></div>
+            <ul>
+              <li>Team workspace</li>
+              <li>Custom styling rules</li>
+              <li>API access</li>
+              <li>Dedicated onboarding</li>
+            </ul>
+            <a href="#" class="btn btn-secondary">Talk to sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Launch premium labels faster.</h2>
+          <p>
+            Build packaging that looks premium, feels consistent, and converts better
+            with AI-assisted design workflows built for modern product brands.
+          </p>
+          <a href="#" class="btn btn-primary">Start creating now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="brand">
+        <div class="brand-mark">L</div>
+        <span>LabelCraft</span>
+      </div>
+      <div>© 2026 LabelCraft. All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html><header><div class="mark">L</div><div><h1>Shipment Barcode Generator</h1><small>Simple shipment number labels</small></div></header>
 <main>
 <section class="intro"><h2>Generate shipment labels</h2><p>Enter shipment numbers only. One barcode label will be created for each number.</p></section>
 <section class="panel no-print">
