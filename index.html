@@ -961,378 +961,675 @@ textarea{min-height:115px;resize:vertical}.hint{font-size:12px;color:var(--muted
   </style>
 </head>
 <body>
-  <header class="site-header">
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LabelPrint</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-soft: #121a22;
+      --panel: #171f29;
+      --panel-2: #1d2733;
+      --text: #f5f7fa;
+      --muted: #a8b3c7;
+      --line: #2a3645;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.12);
+      --white: #ffffff;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(11, 15, 20, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 78px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--white);
+      font-weight: 600;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--white);
+      border-color: var(--line);
+    }
+
+    .hero {
+      padding: 90px 0 70px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 46px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      line-height: 1.05;
+      margin: 0 0 18px;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+
+    .mini-stats {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+    }
+
+    .mini-stats div {
+      min-width: 120px;
+    }
+
+    .mini-stats strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 2px;
+    }
+
+    .mini-stats span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .hero-visual {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      min-height: 460px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .label-box {
+      position: absolute;
+      inset: 60px 70px auto auto;
+      width: 280px;
+      background: #e6edf7;
+      color: #0d1620;
+      border-radius: 14px;
+      padding: 18px 16px;
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .label-box .tag {
+      display: inline-block;
+      background: #dce6f3;
+      color: #2b3f59;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 6px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .label-box h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .label-box p {
+      margin: 0;
+      color: rgba(13, 22, 32, 0.8);
+      font-size: 0.9rem;
+    }
+
+    .mock-roll {
+      position: absolute;
+      left: 44px;
+      bottom: 42px;
+      width: 320px;
+      height: 180px;
+      background: linear-gradient(180deg, #1b2430, #0d1319);
+      border: 1px solid #2d3a48;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-12deg);
+    }
+
+    .mock-roll::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: 12px;
+      background: repeating-linear-gradient(
+        to bottom,
+        #f0f4fa 0,
+        #f0f4fa 16px,
+        #dfe7f2 16px,
+        #dfe7f2 32px
+      );
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .section {
+      padding: 44px 0 30px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-head a {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .product-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(59,130,246,0.25);
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.4rem;
+    }
+
+    .card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .card a {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 18px;
+    }
+
+    .feature {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px 22px;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .feature span {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .banner {
+      margin: 60px 0 20px;
+      background: linear-gradient(135deg, #121a22, #162534);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 34px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .banner h3 {
+      margin: 0 0 6px;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      letter-spacing: -0.04em;
+    }
+
+    .banner p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-top: 30px;
+    }
+
+    .info-box {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px;
+    }
+
+    .info-box h3 {
+      margin: 0 0 18px;
+      font-size: 1.7rem;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .info-box li {
+      margin: 14px 0;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    input, textarea {
+      width: 100%;
+      background: #0c1218;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--white);
+      padding: 13px 14px;
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 70px;
+      padding: 24px 0 44px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner,
+      .contact-wrap,
+      .products,
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .section-head,
+      .banner,
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
     <div class="container nav">
-      <div class="brand">
-        <div class="brand-mark">L</div>
-        <span>LabelCraft</span>
-      </div>
+      <div class="logo">LabelPrint</div>
 
       <nav class="nav-links">
-        <a href="#">Platform</a>
-        <a href="#">Templates</a>
-        <a href="#">Studio</a>
-        <a href="#">Pricing</a>
-        <a href="#">Resources</a>
+        <a href="#">Home</a>
+        <a href="#">Products</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
       </nav>
 
-      <div class="nav-actions">
-        <a href="#" class="btn btn-secondary">Log in</a>
-        <a href="#" class="btn btn-primary">Start free</a>
-      </div>
+      <a href="#" class="btn">Get Quote</a>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">AI Label Generator</div>
-          <h1>
-            Design labels that look
-            <span class="gradient-text">premium</span>
-            and perform.
-          </h1>
-
+      <div class="container hero-inner">
+        <div>
+          <div class="eyebrow">Custom Printing</div>
+          <h1>Custom Label Printing</h1>
           <p>
-            Create product labels, packaging visuals, and branded retail assets in minutes.
-            Automate your workflow with intelligent design suggestions built for modern tech brands.
+            Professional labels for packaging, products, shipping and branding.
+            Premium quality with fast turnaround and affordable pricing.
           </p>
 
           <div class="hero-actions">
-            <a href="#" class="btn btn-primary">Generate labels</a>
-            <a href="#" class="btn btn-secondary">Watch demo</a>
+            <a href="#" class="btn">Request a Quote</a>
+            <a href="#" class="btn secondary">View Products</a>
           </div>
 
-          <div class="hero-stats">
-            <div class="stat">
-              <strong>12k+</strong>
-              labels created
+          <div class="mini-stats">
+            <div>
+              <strong>10k+</strong>
+              <span>Labels Printed</span>
             </div>
-            <div class="stat">
-              <strong>4.9/5</strong>
-              user rating
+            <div>
+              <strong>2-5 Days</strong>
+              <span>Fast Turnaround</span>
             </div>
-            <div class="stat">
-              <strong>2 min</strong>
-              average setup
+            <div>
+              <strong>24/7</strong>
+              <span>Support</span>
             </div>
           </div>
         </div>
 
         <div class="hero-visual">
-          <div class="orb one"></div>
-          <div class="orb two"></div>
+          <div class="label-box">
+            <div class="tag">Premium</div>
+            <h3>Clean labels for strong brands</h3>
+            <p>High-quality custom packaging and product labels.</p>
+          </div>
 
-          <div class="dashboard">
-            <div class="dashboard-topbar">
-              <div class="dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div class="window-title">Label Studio</div>
-            </div>
+          <div class="mock-roll"></div>
+        </div>
+      </div>
+    </section>
 
-            <div class="dashboard-body">
-              <div class="workspace">
-                <div class="panel">
-                  <div class="label-preview">
-                    <div class="label-box">
-                      <div class="brand-tag">Flux Labs</div>
-                      <div class="label-title">Aether<br>Series</div>
-                      <div class="mini-bar"></div>
-                    </div>
-                  </div>
-                </div>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Our Products</h2>
+          <a href="#">See all</a>
+        </div>
 
-                <div class="controls">
-                  <div class="panel">
-                    <div class="control-row">
-                      <span>Brand palette</span>
-                      <span>4 tones</span>
-                    </div>
-                    <div class="swatches">
-                      <span class="swatch" style="background:#4cc9f0"></span>
-                      <span class="swatch" style="background:#5b7cff"></span>
-                      <span class="swatch" style="background:#7ef2d4"></span>
-                      <span class="swatch" style="background:#101d2d"></span>
-                    </div>
-                  </div>
+        <div class="products">
+          <article class="card">
+            <div class="product-icon">▣</div>
+            <h3>Product Labels</h3>
+            <p>Sharp, durable labels for retail products, packaging and branding.</p>
+            <a href="#">Learn more</a>
+          </article>
 
-                  <div class="panel">
-                    <div class="control-row">
-                      <span>Conversion</span>
-                      <span>72%</span>
-                    </div>
-                    <div class="gauge">
-                      <span>72%</span>
-                    </div>
-                  </div>
+          <article class="card">
+            <div class="product-icon">◫</div>
+            <h3>Shipping Labels</h3>
+            <p>Reliable labels built for fast-moving operations and warehouse use.</p>
+            <a href="#">Learn more</a>
+          </article>
 
-                  <div class="panel">
-                    <div class="metrics">
-                      <div class="metric">
-                        <small>Print</small>
-                        <strong>4K</strong>
-                      </div>
-                      <div class="metric">
-                        <small>Speed</small>
-                        <strong>2x</strong>
-                      </div>
-                      <div class="metric">
-                        <small>AI</small>
-                        <strong>28</strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <article class="card">
+            <div class="product-icon">◎</div>
+            <h3>Custom Labels</h3>
+            <p>Tailored label solutions for your exact size, color and finish needs.</p>
+            <a href="#">Learn more</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Why choose us</h2>
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <strong>Quality Materials</strong>
+            <span>Strong, durable and professional print finishes for every order.</span>
+          </div>
+
+          <div class="feature">
+            <strong>Fast Delivery</strong>
+            <span>Quick production and reliable delivery for business needs.</span>
+          </div>
+
+          <div class="feature">
+            <strong>Affordable Pricing</strong>
+            <span>Flexible options for small runs and large volume orders.</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <h2>Built for modern product teams</h2>
-          <p>
-            From packaging mockups to shelf-ready labels, LabelCraft helps you generate polished,
-            conversion-friendly visuals with less friction.
-          </p>
+    <section class="container">
+      <div class="banner">
+        <div>
+          <h3>Need a custom label quote?</h3>
+          <p>Tell us your size, quantity and finish requirements.</p>
         </div>
-
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="icon-box">⚡</div>
-            <h3>AI-generated layouts</h3>
-            <p>Generate high-quality label concepts from a simple prompt or product description.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="icon-box">🎨</div>
-            <h3>Brand consistency</h3>
-            <p>Match your palette, typography, and visual language across every product line.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="icon-box">📦</div>
-            <h3>Retail-ready exports</h3>
-            <p>Export PNG, PDF, SVG, and print-focused assets optimized for packaging workflows.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="icon-box">📈</div>
-            <h3>Conversion insights</h3>
-            <p>Test label variations and improve readability, shelf appeal, and product trust.</p>
-          </div>
-        </div>
+        <a href="#" class="btn">Get Started</a>
       </div>
     </section>
 
-    <section>
+    <section class="section">
       <div class="container">
         <div class="section-head">
-          <h2>How it works</h2>
-          <p>Create premium packaging visuals from idea to export in a few simple steps.</p>
+          <h2>Contact us</h2>
         </div>
 
-        <div class="workflow">
-          <div class="step">
-            <div class="step-number">1</div>
-            <h3>Describe your product</h3>
-            <p>Enter category, tone, audience, and style direction.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">2</div>
-            <h3>Generate concepts</h3>
-            <p>Explore AI-produced label variations tailored to your brief.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">3</div>
-            <h3>Customize fast</h3>
-            <p>Fine-tune text, color, spacing, logos, and brand elements.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">4</div>
-            <h3>Export and ship</h3>
-            <p>Download files ready for product listing, print, and marketing.</p>
-          </div>
-        </div>
-
-        <div class="showcase">
-          <div class="showcase-left">
-            <div class="label-hero">
-              <div class="label-box">
-                <div class="brand-tag">Nova Labs</div>
-                <div class="label-title">Quantum<br>Energy</div>
-                <div class="mini-bar"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="showcase-right">
-            <div class="mini-panel">
-              <h4>Best for</h4>
-              <div class="brand-list">
-                <span class="brand-pill">SaaS</span>
-                <span class="brand-pill">Consumer</span>
-                <span class="brand-pill">Beauty</span>
-                <span class="brand-pill">Wellness</span>
-                <span class="brand-pill">Retail</span>
-              </div>
-            </div>
-
-            <div class="mini-panel">
-              <h4>Key metrics</h4>
-              <div class="metrics">
-                <div class="metric">
-                  <small>CTR</small>
-                  <strong>+38%</strong>
-                </div>
-                <div class="metric">
-                  <small>Speed</small>
-                  <strong>4.8x</strong>
-                </div>
-                <div class="metric">
-                  <small>Reuse</small>
-                  <strong>90%</strong>
-                </div>
-              </div>
-            </div>
-
-            <div class="mini-panel">
-              <h4>Ready for export</h4>
-              <div class="brand-list">
-                <span class="brand-pill">PNG</span>
-                <span class="brand-pill">SVG</span>
-                <span class="brand-pill">PDF</span>
-                <span class="brand-pill">Print</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <h2>Trusted by product teams</h2>
-          <p>Teams use LabelCraft to create packaging that looks premium, sells better, and ships faster.</p>
-        </div>
-
-        <div class="testimonials">
-          <div class="quote">
-            <p>“The quality feels like a premium design studio. We cut our label mockup time from days to minutes.”</p>
-            <div class="person">
-              <div class="avatar">AS</div>
-              <div>
-                <strong>Alicia Stone</strong>
-                <small>Brand Lead, FluxLab</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="quote">
-            <p>“We generate multiple label directions in seconds and iterate with our marketing team in real time.”</p>
-            <div class="person">
-              <div class="avatar">JR</div>
-              <div>
-                <strong>Jon Rhee</strong>
-                <small>VP Product, Nera</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="quote">
-            <p>“It looks like a polished product launch experience, but it was built for speed and consistency.”</p>
-            <div class="person">
-              <div class="avatar">LM</div>
-              <div>
-                <strong>Lena Moss</strong>
-                <small>Creative Director, Orbital</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <h2>Simple pricing</h2>
-          <p>Flexible plans for startups, design teams, and scaling product brands.</p>
-        </div>
-
-        <div class="pricing">
-          <div class="price-card">
-            <h3>Starter</h3>
-            <div class="price">$19 <small>/mo</small></div>
+        <div class="contact-wrap">
+          <div class="info-box">
+            <h3>Let’s talk</h3>
             <ul>
-              <li>10 AI label generations</li>
-              <li>6 export presets</li>
-              <li>Basic templates</li>
+              <li>Email: hello@labelprint.com</li>
+              <li>Phone: +1 (555) 123-4567</li>
+              <li>Location: 24 Business Avenue, USA</li>
             </ul>
-            <a href="#" class="btn btn-secondary">Get started</a>
           </div>
 
-          <div class="price-card featured">
-            <h3>Pro</h3>
-            <div class="price">$49 <small>/mo</small></div>
-            <ul>
-              <li>Unlimited generations</li>
-              <li>Brand kit management</li>
-              <li>Advanced export tools</li>
-              <li>Priority rendering</li>
-            </ul>
-            <a href="#" class="btn btn-primary">Most popular</a>
-          </div>
+          <form>
+            <div class="form-row">
+              <div>
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="Your name" />
+              </div>
 
-          <div class="price-card">
-            <h3>Scale</h3>
-            <div class="price">$99 <small>/mo</small></div>
-            <ul>
-              <li>Team workspace</li>
-              <li>Custom styling rules</li>
-              <li>API access</li>
-              <li>Dedicated onboarding</li>
-            </ul>
-            <a href="#" class="btn btn-secondary">Talk to sales</a>
-          </div>
-        </div>
-      </div>
-    </section>
+              <div>
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="Your email" />
+              </div>
+            </div>
 
-    <section class="cta">
-      <div class="container">
-        <div class="cta-box">
-          <h2>Launch premium labels faster.</h2>
-          <p>
-            Build packaging that looks premium, feels consistent, and converts better
-            with AI-assisted design workflows built for modern product brands.
-          </p>
-          <a href="#" class="btn btn-primary">Start creating now</a>
+            <div>
+              <label for="subject">Subject</label>
+              <input id="subject" type="text" placeholder="Order inquiry" />
+            </div>
+
+            <div>
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="Tell us about your label needs"></textarea>
+            </div>
+
+            <button type="submit" class="btn">Send Request</button>
+          </form>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer>
     <div class="container footer-inner">
-      <div class="brand">
-        <div class="brand-mark">L</div>
-        <span>LabelCraft</span>
-      </div>
-      <div>© 2026 LabelCraft. All rights reserved.</div>
+      <div class="logo">LabelPrint</div>
+      <div>© 2026 LabelPrint. All rights reserved.</div>
     </div>
   </footer>
+</body>
+</html>
 </body>
 </html><header><div class="mark">L</div><div><h1>Shipment Barcode Generator</h1><small>Simple shipment number labels</small></div></header>
 <main>
